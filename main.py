@@ -4,6 +4,7 @@
 #     "anthropic==0.75.0",
 #     "beautifulsoup4==4.14.3",
 #     "httpx==0.28.1",
+#     "numpy==2.3.5",
 #     "pytest==9.0.2",
 #     "python-dotenv==1.2.1",
 # ]
@@ -23,6 +24,7 @@ with app.setup:
     from bs4 import BeautifulSoup
     from datetime import datetime, date
     from dotenv import load_dotenv
+    import numpy as np
 
 
     load_dotenv() 
@@ -47,7 +49,7 @@ def _():
 
 @app.cell
 def _():
-    show_dec(one=[], two=[1, 2])
+    show_dec(one=[], two=[1, 2, 3])
     return
 
 
@@ -152,12 +154,16 @@ def _():
         """Returns all proper divisors of n (excluding n itself)."""
         return [i for i in range(1, n//2+1) if n%i==0]
 
+    # def is_repeating(s: str) -> bool:
+    #     """Check if s is a pattern repeated at least twice."""
+    #     n = len(s)
+    #     for sz in divisors(n):
+    #         if s[:sz]*(n//sz)==s: return True
+    #     return False
+
     def is_repeating(s: str) -> bool:
         """Check if s is a pattern repeated at least twice."""
-        n = len(s)
-        for sz in divisors(n):
-            if s[:sz]*(n//sz)==s: return True
-        return False
+        return bool(re.match(r'^(.+)\1+$', s))
 
     def day2():
         data = get_data(d=2, y=2025).strip()
@@ -177,7 +183,7 @@ def _():
             for i in range(a, b+1):
                 if is_repeating(str(i)): tot2 += i
 
-        print(f"Day 2\n\t{tot1=}\n\t{tot2=}")
+        print(f"Day 2\n\t{tot1 = :>18,}\n\t{tot2 = :>18,}")
 
 
     day2()
@@ -216,19 +222,29 @@ def _(mo):
 
 @app.cell
 def _():
-    d = get_data(3)
-    print(f'''
-        {type(d) = }
-        {d[:20]  = }
-        {d[-20:] = }
-        {len(d)  = :,}
-    ''')
-    return (d,)
+    def greedy_max_n(
+        s: str,   # string of # 1-9
+        n: int    # num digits to extract
+    ) -> str:     # largest number extractable without changeing order
+        res,idx = [],0
+        for i in range(n,0,-1):
+            end = len(s)-(i-1)
+            mx = max(s[idx:end])
+            res.append(mx)
+            idx = s.index(mx,idx)+1
+        return "".join(res)
+
+    def day3():
+        d = get_data(3,2025).splitlines()
+        part_1 = sum([int(greedy_max_n(s,2)) for s in d])
+        part_2 = sum([int(greedy_max_n(s,12)) for s in d])
+        print(f"Day 3 \n\t {part_1 = :>20,} \n\t {part_2 = :>20,}")
+    return (day3,)
 
 
 @app.cell
-def _(d):
-    print(d)
+def _(day3):
+    day3()
     return
 
 
