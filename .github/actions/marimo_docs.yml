@@ -5,12 +5,16 @@ on:
     branches:
       - master
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
-  export:
+  build:
     runs-on: ubuntu-latest
     
     steps:
-    
       - name: Checkout repository
         uses: actions/checkout@v4
       
@@ -20,28 +24,30 @@ jobs:
           python-version: '3.13'
       
       - name: Install dependencies
-        run: |
-          pip install .
+        run: pip install .
 
       - name: Create docs folder
-        run: |
-          mkdir -p docs
+        run: mkdir -p docs
       
       - name: Export marimo notebook to HTML
-        run: |
-          marimo export html main.py -o ./docs/index.html
+        run: marimo export html main.py -o ./docs/index.html
 
       - name: Create .nojekyll file
-        run: |
-          touch ./docs/.nojekyll
+        run: touch ./docs/.nojekyll
       
-      - name: Commit and push changes
-        run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git add docs/index.html docs/.nojekyll
-          git diff --quiet && git diff --staged --quiet || git commit -m "Update exported HTML"
-          git push
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./docs
 
-
-
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
