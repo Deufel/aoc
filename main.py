@@ -13,11 +13,7 @@
 import marimo
 
 __generated_with = "0.18.4"
-app = marimo.App(
-    width="columns",
-    app_title="Advent of Code",
-    auto_download=["html"],
-)
+app = marimo.App(width="columns", app_title="Advent of Code")
 
 with app.setup:
     import httpx, os, re, calendar

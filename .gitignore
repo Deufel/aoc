@@ -11,3 +11,6 @@ wheels/
 
 # Env Vars
 .env
+
+# Py Test
+.pytest_cache
