@@ -12,7 +12,11 @@
 import marimo
 
 __generated_with = "0.18.4"
-app = marimo.App(width="columns", app_title="Advent of Code")
+app = marimo.App(
+    width="columns",
+    app_title="Advent of Code",
+    auto_download=["html"],
+)
 
 with app.setup:
     import httpx, os, re, calendar
@@ -219,7 +223,6 @@ def _():
         {d[-20:] = }
         {len(d)  = :,}
     ''')
-
     return (d,)
 
 
