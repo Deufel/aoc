@@ -45,7 +45,7 @@ def _():
 
 @app.cell
 def _():
-    show_dec(one=[], two=[1, 2, 3])
+    show_dec(one=[4], two=[1, 2, 3])
     return
 
 
