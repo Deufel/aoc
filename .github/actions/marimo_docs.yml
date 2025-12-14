@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+    
       - name: Checkout repository
         uses: actions/checkout@v4
       
@@ -21,6 +22,10 @@ jobs:
       - name: Install dependencies
         run: |
           pip install .
+
+      - name: Create docs folder
+        run: |
+          mkdir -p docs
       
       - name: Export marimo notebook to HTML
         run: |
@@ -28,13 +33,13 @@ jobs:
 
       - name: Create .nojekyll file
         run: |
-          touch .nojekyll
+          touch ./docs/.nojekyll
       
       - name: Commit and push changes
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add docs/index.html .nojekyll
+          git add docs/index.html docs/.nojekyll
           git diff --quiet && git diff --staged --quiet || git commit -m "Update exported HTML"
           git push
 
