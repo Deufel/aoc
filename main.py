@@ -22,6 +22,8 @@ with app.setup:
     from dotenv import load_dotenv
     import numpy as np
 
+    # import marimo as mo
+    import pytest
 
     load_dotenv() 
     SESSION = os.getenv("SESSION") or input("Paste SESSION cookie: ")
@@ -38,9 +40,7 @@ def _(mo):
 
 @app.cell
 def _():
-    import marimo as mo
-    import pytest
-    return (mo,)
+    return
 
 
 @app.cell
