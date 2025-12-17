@@ -22,15 +22,17 @@ with app.setup:
     from dotenv import load_dotenv
     import numpy as np
 
-    # import marimo as mo
+    import marimo as mo
     import pytest
 
     load_dotenv() 
-    SESSION = os.getenv("SESSION") or input("Paste SESSION cookie: ")
+    SESSION = os.getenv("SESSION") 
+
+    #or input("Paste SESSION cookie: ")
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     # Advent of Code: 2025
     > Mike Deufel
@@ -50,7 +52,7 @@ def _():
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ## Utils
     """)
@@ -95,7 +97,7 @@ def _():
 
 
 @app.cell(column=1, hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ## Solutions
     """)
@@ -103,7 +105,7 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ### 1
     """)
@@ -137,7 +139,7 @@ def _():
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ### 2
     """)
@@ -209,7 +211,7 @@ def _(day2):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ### 3
     """)
